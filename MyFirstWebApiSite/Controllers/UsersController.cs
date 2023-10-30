@@ -75,7 +75,7 @@ namespace MyFirstWebApiSite.Controllers
             if (result == 0)
                 return Ok(User);
             if (result == 1)
-                return BadRequest();
+                return NoContent();
             return BadRequest();
         }
 

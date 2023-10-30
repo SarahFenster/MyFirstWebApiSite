@@ -23,7 +23,7 @@ async function updateUserDetails() {
                     "Content-Type": "application/json"
                 }
             })
-            if (res.status == 400) {///////////////////////////////////
+            if (res.status == 204) {
                 alert("user not found")
                 return;
             }
@@ -46,9 +46,14 @@ async function updateUserDetails() {
             },
             body: JSON.stringify(user)
         })
-        if (!res.ok)
-            throw new Error("error in updating your details in our site")
-        //const data = await res.json();
+        if (res.status == 204) {
+            alert("easy password...")
+            return
+        }
+        if (!res.ok) {
+            alert(res)
+            return
+        }
         alert("Updated!")
     }
     catch (er) {
