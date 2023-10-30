@@ -5,6 +5,25 @@ const showUpdateTags = () => {
     updateTags.style.visibility = "initial" 
 }
 
+const fetchPwdStrength = async (password) => {
+    try {
+        const res = await fetch("api/Users/checkYourPass", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(password)
+        })
+        if (!res.ok)
+            throw new Error("error in checking pwd strength")
+        const result = await res.json();
+        return result
+    }
+    catch {
+        alert("error ..., please try again")
+    }
+}
+
 async function updateUserDetails() {
     try {
         const UserName = document.getElementById("updateName").value
@@ -13,7 +32,12 @@ async function updateUserDetails() {
         const LastName = document.getElementById("updateLName").value
         const user = { UserName, Password, FirstName, LastName }
         let id;
-
+        const result = fetchPwdStrength(Password)
+        if (result < 2) {
+            alert("easy password... choose a differrent one")
+            progress.value = result / 4
+            return
+        }
         try {
             const storagedUserName = sessionStorage.getItem("UserName")
             const storagedPassword = sessionStorage.getItem("Password")
@@ -51,7 +75,7 @@ async function updateUserDetails() {
             return
         }
         if (!res.ok) {
-            alert(res)
+            alert(res)//how should I return the message from the validations in class user?
             return
         }
         alert("Updated!")

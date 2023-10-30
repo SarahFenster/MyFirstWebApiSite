@@ -64,7 +64,7 @@ async function Register() {
             body: JSON.stringify(user)
         })
         if (!res.ok) {
-            console.log(res)
+            console.log(res)//how should I return the message from the validations in class user?
             alert(res)
             return
         }
