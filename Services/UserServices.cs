@@ -12,6 +12,7 @@ namespace Services
 
         public UserServices(IUserRepository iuserRepository)
         {
+            //IUserRepository userRepository (instead of  iuserService)
             userRepository = iuserRepository;
         }
 
@@ -19,8 +20,10 @@ namespace Services
         {
             return await userRepository.getUserById(id);
         }
+        //Function name- addUser/ createUser (This function doesn't add the userToDB...)-clean code
          public User addUserToDB(User user)
         {
+            //async await??? 
             int result = validatePassword(user.Password);
             if (result < 2)
                 return null;
@@ -34,6 +37,7 @@ namespace Services
 
         async public Task<int> updateUserDetails(int id, User userToUpdate)
         {
+            //Why do you return numbers? Why not return null if password isn't strong, else return userRepository.update(...)?
             int result = validatePassword(userToUpdate.Password);
             if (result < 2)
                 return 1;

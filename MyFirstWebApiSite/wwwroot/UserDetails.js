@@ -39,6 +39,7 @@ async function updateUserDetails() {
             return
         }
         try {
+            //Save the entire user object in the sessionStorage and then you won't need to fetch userId
             const storagedUserName = sessionStorage.getItem("UserName")
             const storagedPassword = sessionStorage.getItem("Password")
             const res = await fetch(`api/Users/?email=${storagedUserName}&password=${storagedPassword}`, {
@@ -70,7 +71,7 @@ async function updateUserDetails() {
             },
             body: JSON.stringify(user)
         })
-        if (res.status == 204) {
+        if (res.status == 204) {//204 is not suitable status for easy password- consider 400...
             alert("easy password...")
             return
         }
