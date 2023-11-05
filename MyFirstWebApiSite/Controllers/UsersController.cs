@@ -15,18 +15,20 @@ namespace MyFirstWebApiSite.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        IUserServices userServices ;
+        IUserServices userServices;//_userService - convention 
 
         public UsersController(IUserServices iuserServices)
         {
+            //IuserService userService (instead of  iuserService)
             this.userServices = iuserServices;
+            //The this keyword is unnecessary.
         }
 
         // GET: api/<UsersController>
         [HttpGet("{id}")]
         async public Task<ActionResult> Get(int id)
         {
-
+            //The function should return Task<ActionResult<User!!!>, You return the user- Ok(user)
             User user = await userServices.getUserById(id);
             if (user != null)
                 return Ok(user);
@@ -48,21 +50,27 @@ namespace MyFirstWebApiSite.Controllers
             if (user != null)
                 return Ok(user);
             return NoContent();
+            //suggestion for shorter and nicer code- user== null ? NoContent() : Ok(user);
+
         }
 
         // POST api/<UsersController>
         [HttpPost]
          public ActionResult Post([FromBody] User user)
         {
+            //async await??? The fuction should return Task<ActionResult<User>
             try
             {
                 user =  userServices.addUserToDB(user);
                 if (user != null)
+                    //user.Id (User in Entity doesn't contain a definition for usreId)
                     return CreatedAtAction(nameof(Get), new { id = user.UserId }, user);
                 return BadRequest();
             }
             catch (Exception ex)
-            {
+            {   
+                //error code 400 (BadRequest) is not suitable for server exceptions; use the 500 error code for internal server Error. 
+                //return Status code 500 or throw an exception. 
                 return BadRequest(ex.Message);
             }
         }
@@ -71,7 +79,9 @@ namespace MyFirstWebApiSite.Controllers
         [HttpPut("{id}")]
         async public Task<ActionResult> Put(int id, [FromBody] User userToUpdate)
         {
+            // The fuction should return Task<ActionResult<User> 
             int result = await userServices.updateUserDetails(id, userToUpdate);
+            //if updatedUser==null return BadRequest("easy password") else return Ok(updatedUser)
             if (result == 0)
                 return Ok(User);
             if (result == 1)
@@ -79,6 +89,7 @@ namespace MyFirstWebApiSite.Controllers
             return BadRequest();
         }
 
+        //Clean code -Remove unnecessary lines of code.
         // DELETE api/<UsersController>/5
         //[HttpDelete("{id}")]
         //public void Delete(int id)

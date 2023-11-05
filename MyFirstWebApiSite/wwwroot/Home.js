@@ -1,4 +1,5 @@
-
+//I recommend to change the project name to webApiShopSite or shopSite etc.
+//Change file name to home.js (also userDetails.js)- camelCase
 const ShowRegisterTags = () => {
     const reg = document.getElementById("register")
     reg.style.visibility="initial"
@@ -19,6 +20,7 @@ const fetchPwdStrength = async (password) => {
         return result
     }
     catch {
+         //Alerting errors to the user is not recommended, log them to the console.
         alert("error ..., please try again")
     }
     }
@@ -42,6 +44,7 @@ const checkPwdStrength = async () => {
         alert("error in checking yor password, please try again")
     } 
 }
+//JavaScript function names and variables names should start with camel case
 async function Register() {
     try {
         const UserName = document.getElementById("regName").value
@@ -68,6 +71,7 @@ async function Register() {
             alert(res)
             return
         }
+        //Save the entire user object in sessionStorage - using json.stringify...
         sessionStorage.setItem("FirstName", FirstName)
         sessionStorage.setItem("LastName", LastName)
         alert(`Welcome! ${FirstName} `)
@@ -76,8 +80,10 @@ async function Register() {
         alert(er)
     } 
 }
+//login
 async function Login () {
     try {
+        //userName,password
         const UserName = document.getElementById("logName").value
         const Password = document.getElementById("logPassword").value
 
@@ -93,6 +99,8 @@ async function Login () {
             return;
         }
         if (!res.ok) { 
+           //Instead of throwing an error , only display an alert to the user
+           //UserName or password are not valid, login failed...
             throw new Error("error in login, please try again")
             alert("error in login, please try again")}
         

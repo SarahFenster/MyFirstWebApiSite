@@ -44,6 +44,7 @@ namespace Repositories
             return null;
         }
         async public Task<bool> updateUserDetails(int id, User userToUpdate)
+            //Return User not bool  (userToUpdate) 
         {
             string textToReplace = string.Empty;
             using (StreamReader reader = System.IO.File.OpenText(filePath))
