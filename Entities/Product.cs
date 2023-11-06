@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Entities;
+namespace MyFirstWebApiSite;
 
 public partial class Product
 {
@@ -18,4 +18,6 @@ public partial class Product
     public double? Price { get; set; }
 
     public virtual Category? Category { get; set; }
+
+    public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }

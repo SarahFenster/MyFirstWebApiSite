@@ -4,7 +4,6 @@ using System.Reflection.Metadata.Ecma335;
 using System.Security.Principal;
 using System.Text.Json;
 using Services;
-using Entities;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -58,7 +57,7 @@ namespace MyFirstWebApiSite.Controllers
             {
                 user =  userServices.addUserToDB(user);
                 if (user != null)
-                    return CreatedAtAction(nameof(Get), new { id = user.UserId }, user);
+                    return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
                 return BadRequest();
             }
             catch (Exception ex)

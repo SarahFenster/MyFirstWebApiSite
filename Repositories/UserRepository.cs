@@ -10,7 +10,7 @@ namespace Repositories
          public User addUserToDB(User user)
         {
             int numberOfUsers = System.IO.File.ReadLines(filePath).Count();
-            user.UserId = numberOfUsers + 1;
+            user.Id = numberOfUsers + 1;
             string userJson = JsonSerializer.Serialize(user);
             System.IO.File.AppendAllText(filePath, userJson + Environment.NewLine);
             return user;
@@ -23,7 +23,7 @@ namespace Repositories
                 while ((currentUserInFile = await reader.ReadLineAsync()) != null)
                 {
                     User user = JsonSerializer.Deserialize<User>(currentUserInFile);
-                    if (user.UserId==id)
+                    if (user.Id==id)
                         return user;
                 }
             }
@@ -53,7 +53,7 @@ namespace Repositories
                 {
 
                     User user = JsonSerializer.Deserialize<User>(currentUserInFile);
-                    if (user.UserId == id)
+                    if (user.Id == id)
                         textToReplace = currentUserInFile;
                 }
             }
