@@ -1,4 +1,6 @@
-﻿using Entities;
+﻿//using Entities;
+using Microsoft.EntityFrameworkCore;
+using MyFirstWebApiSite;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
 
@@ -6,66 +8,34 @@ namespace Repositories
 {
     public class UserRepository : IUserRepository
     {
-        private const string filePath = "M:/Web-Api/MyFirstWebApiSite/Users";
-         public User addUserToDB(User user)
+        private readonly ClothesShop326023306Context _clothesShop326023306Context;
+
+        public UserRepository(ClothesShop326023306Context clothesShop326023306Context)
         {
-            int numberOfUsers = System.IO.File.ReadLines(filePath).Count();
-            user.Id = numberOfUsers + 1;
-            string userJson = JsonSerializer.Serialize(user);
-            System.IO.File.AppendAllText(filePath, userJson + Environment.NewLine);
+            _clothesShop326023306Context = clothesShop326023306Context;
+        }
+        
+         public async Task<User> addUserToDB(User user)
+        {
+            await _clothesShop326023306Context.Users.AddAsync(user);
+            await _clothesShop326023306Context.SaveChangesAsync();
             return user;
         }
         async public Task<User> getUserById(int id)
         {
-            using (StreamReader reader = System.IO.File.OpenText(filePath))
-            {
-                string? currentUserInFile;
-                while ((currentUserInFile = await reader.ReadLineAsync()) != null)
-                {
-                    User user = JsonSerializer.Deserialize<User>(currentUserInFile);
-                    if (user.Id==id)
-                        return user;
-                }
-            }
-            return null;
+            return await _clothesShop326023306Context.Users.Where(user=>user.Id==id).FirstOrDefaultAsync();
         }
         async public Task<User> getUserByEmailAndPassword(string email, string password)
         {
-            using (StreamReader reader = System.IO.File.OpenText(filePath))
-            {
-                string? currentUserInFile;
-                while ((currentUserInFile = await reader.ReadLineAsync()) != null)
-                {
-                    User user = JsonSerializer.Deserialize<User>(currentUserInFile);
-                    if (user.UserName == email && user.Password == password)
-                        return user;
-                }
-            }
-            return null;
+            return await _clothesShop326023306Context.Users.Where(user=>user.UserName==email&&user.Password==password).FirstOrDefaultAsync();
+
         }
         async public Task<bool> updateUserDetails(int id, User userToUpdate)
         {
-            string textToReplace = string.Empty;
-            using (StreamReader reader = System.IO.File.OpenText(filePath))
-            {
-                string currentUserInFile;
-                while ((currentUserInFile = await reader.ReadLineAsync()) != null)
-                {
+             var res=_clothesShop326023306Context.Users.Update(userToUpdate);
+            await _clothesShop326023306Context.SaveChangesAsync();
+            return res != null;
 
-                    User user = JsonSerializer.Deserialize<User>(currentUserInFile);
-                    if (user.Id == id)
-                        textToReplace = currentUserInFile;
-                }
-            }
-
-            if (textToReplace != string.Empty)
-            {
-                string text = System.IO.File.ReadAllText(filePath);
-                text = text.Replace(textToReplace, JsonSerializer.Serialize(userToUpdate));
-                System.IO.File.WriteAllText(filePath, text);
-                return true;
-            }
-            return false;
         }
 
     }

@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using MyFirstWebApiSite;
 using Repositories;
 using Services;
 
@@ -9,6 +11,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddDbContext<ClothesShop326023306Context>(options => options.UseSqlServer
+("Server=srv2\\pupils;Database=ClothesShop_326023306;Trusted_Connection=True;TrustServerCertificate=True"));
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
