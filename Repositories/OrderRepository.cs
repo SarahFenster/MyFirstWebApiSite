@@ -7,16 +7,19 @@ using System.Threading.Tasks;
 
 namespace Repositories
 {
-    internal class OrderRepository : IOrderRepository
+    public class OrderRepository : IOrderRepository
     {
+        private readonly ClothesShop326023306Context _clothesShop326023306Context;
 
-        public Order addOrder(Order order)
+        public OrderRepository(ClothesShop326023306Context clothesShop326023306Context)
         {
-            using (var context = new ClothesShop326023306Context())
-            {
-                context.Orders.AddAsync(order);
-                context.SaveChangesAsync();
-            }
+            _clothesShop326023306Context = clothesShop326023306Context;
+        }
+
+        async public Task<Order> addOrder(Order order)
+        {
+            await _clothesShop326023306Context.Orders.AddAsync(order);
+            await _clothesShop326023306Context.SaveChangesAsync();
             return order;
         }
     }

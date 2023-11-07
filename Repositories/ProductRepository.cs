@@ -8,8 +8,18 @@ using System.Threading.Tasks;
 
 namespace Repositories
 {
-    internal class ProductRepository
+    public class ProductRepository : IProductRepository
     {
-        
+        private readonly ClothesShop326023306Context _clothesShop326023306Context;
+
+        public ProductRepository(ClothesShop326023306Context clothesShop326023306Context)
+        {
+            _clothesShop326023306Context = clothesShop326023306Context;
+        }
+
+        async public Task<IEnumerable<Product>> GetAllProducts()
+        {
+            return await _clothesShop326023306Context.Products.ToListAsync();
+        }
     }
 }

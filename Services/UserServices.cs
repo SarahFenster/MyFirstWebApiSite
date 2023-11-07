@@ -9,39 +9,37 @@ namespace Services
 {
     public class UserServices : IUserServices
     {
-        IUserRepository userRepository;
+        IUserRepository _userRepository;
 
-        public UserServices(IUserRepository iuserRepository)
+        public UserServices(IUserRepository userRepository)
         {
-            userRepository = iuserRepository;
+            _userRepository = userRepository;
         }
 
         async public Task<User> getUserById(int id)
         {
-            return await userRepository.getUserById(id);
+            return await _userRepository.getUserById(id);
         }
-         public User addUserToDB(User user)
+         async public Task<User> addUserToDB(User user)
         {
             int result = validatePassword(user.Password);
             if (result < 2)
                 return null;
-            return userRepository.addUserToDB(user);
+            return await _userRepository.addUserToDB(user);
         }
 
         async public Task<User> getUserByEmailAndPassword(string email, string password)
         {
-            return await userRepository.getUserByEmailAndPassword(email, password);
+            return await _userRepository.getUserByEmailAndPassword(email, password);
         }
 
-        async public Task<int> updateUserDetails(int id, User userToUpdate)
+        async public Task<User> updateUserDetails(int id, User userToUpdate)
         {
             int result = validatePassword(userToUpdate.Password);
             if (result < 2)
-                return 1;
-            bool res = await userRepository.updateUserDetails(id, userToUpdate);
-            if (res)
-                return 0;
-            return 2;
+                return null;
+            return await _userRepository.updateUserDetails(id, userToUpdate);
+            
         }
 
         public int validatePassword(string password)

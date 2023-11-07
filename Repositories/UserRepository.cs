@@ -30,11 +30,12 @@ namespace Repositories
             return await _clothesShop326023306Context.Users.Where(user=>user.UserName==email&&user.Password==password).FirstOrDefaultAsync();
 
         }
-        async public Task<bool> updateUserDetails(int id, User userToUpdate)
+        async public Task<User> updateUserDetails(int id, User userToUpdate)
         {
-             var res=_clothesShop326023306Context.Users.Update(userToUpdate);
+             var res= _clothesShop326023306Context.Users.Update(userToUpdate);
             await _clothesShop326023306Context.SaveChangesAsync();
-            return res != null;
+           
+            return res!=null? userToUpdate:null ;
 
         }
 

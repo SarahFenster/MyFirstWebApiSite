@@ -14,28 +14,25 @@ namespace MyFirstWebApiSite.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        IUserServices userServices ;
+        IUserServices _userServices ;
 
-        public UsersController(IUserServices iuserServices)
+        public UsersController(IUserServices userServices)
         {
-            this.userServices = iuserServices;
+            _userServices = userServices;
         }
 
         // GET: api/<UsersController>
         [HttpGet("{id}")]
-        async public Task<ActionResult> Get(int id)
+        async public Task<ActionResult<User>> Get(int id)
         {
-
-            User user = await userServices.getUserById(id);
-            if (user != null)
-                return Ok(user);
-            return NoContent();
+            User user = await _userServices.getUserById(id);
+             return user == null ? NoContent() : Ok(user);
         }
 
         [HttpPost("checkYourPass")]
-        public ActionResult checkYourPass([FromBody] string password)
+         public ActionResult checkYourPass([FromBody] string password)
         {
-            int result = userServices.validatePassword(password);
+            int result = _userServices.validatePassword(password);
             return Ok(result);
         }
 
@@ -43,7 +40,7 @@ namespace MyFirstWebApiSite.Controllers
         [HttpGet]
         async public Task<ActionResult> Get([FromQuery] string email, [FromQuery] string password)
         {
-            User user = await userServices.getUserByEmailAndPassword(email, password);
+            User user = await _userServices.getUserByEmailAndPassword(email, password);
             if (user != null)
                 return Ok(user);
             return NoContent();
@@ -51,39 +48,28 @@ namespace MyFirstWebApiSite.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-         public ActionResult Post([FromBody] User user)
+         async public Task<ActionResult<User>> Post([FromBody] User user)
         {
             try
             {
-                user =  userServices.addUserToDB(user);
+               User createdUser = await _userServices.addUserToDB(user);
                 if (user != null)
                     return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
                 return BadRequest();
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                throw new Exception(ex.Message);
             }
         }
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        async public Task<ActionResult> Put(int id, [FromBody] User userToUpdate)
+        async public Task<ActionResult<User>> Put(int id, [FromBody] User userToUpdate)
         {
-            int result = await userServices.updateUserDetails(id, userToUpdate);
-            if (result == 0)
-                return Ok(User);
-            if (result == 1)
-                return NoContent();//which status should I return for easy password?
-            return BadRequest();
+            var result = await _userServices.updateUserDetails(id, userToUpdate);
+            return result != null ? Ok(User) : BadRequest();
         }
-
-        // DELETE api/<UsersController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
-
 
     }
 }

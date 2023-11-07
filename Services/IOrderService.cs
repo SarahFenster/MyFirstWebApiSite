@@ -1,8 +1,8 @@
 ﻿using MyFirstWebApiSite;
 
-namespace Repositories
+namespace Services
 {
-    public interface IOrderRepository
+    public interface IOrderService
     {
         Task<Order> addOrder(Order order);
     }
