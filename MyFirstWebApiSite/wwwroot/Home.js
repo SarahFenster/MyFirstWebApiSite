@@ -1,5 +1,5 @@
 
-const ShowRegisterTags = () => {
+const showRegisterTags = () => {
     const reg = document.getElementById("register")
     reg.style.visibility="initial"
 }
@@ -96,8 +96,7 @@ async function login () {
         
         const data = await res.json();
         console.log(data)
-        sessionStorage.setItem("Password", data.password)
-        sessionStorage.setItem("UserName", data.userName)
+        sessionStorage.setItem("User",data)
         window.location.href = "UserDetails.html?firstName=" + data.firstName
     }
 
