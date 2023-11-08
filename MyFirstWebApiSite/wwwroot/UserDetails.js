@@ -38,44 +38,20 @@ async function updateUserDetails() {
             progress.value = result / 4
             return
         }
-        try {
-            const storagedUserName = sessionStorage.getItem("UserName")
-            const storagedPassword = sessionStorage.getItem("Password")
-            const res = await fetch(`api/Users/?email=${storagedUserName}&password=${storagedPassword}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-            if (res.status == 204) {
-                alert("user not found")
-                return;
-            }
-            if (!res.ok) {
-                throw new Error("error in login, please try again")
-                alert("error in getting your details, please try again")
-            }
-
-            const data = await res.json();
-            id=data.userId
-        }
-        catch (er) {
-            alert("error................., please try again")
-        }
-
-        const res = await fetch(`api/Users/${id}`, {
+        const user = sessionStorage.getItem("User")
+        const res = await fetch(`api/Users/${user.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(user)
         })
-        if (res.status == 204) {
+        if (res.status == 400) {
             alert("easy password...")
             return
         }
         if (!res.ok) {
-            alert(res)//how should I return the message from the validations in class user?
+            alert(res)
             return
         }
         alert("Updated!")

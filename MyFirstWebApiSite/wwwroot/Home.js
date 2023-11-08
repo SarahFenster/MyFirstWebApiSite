@@ -18,8 +18,8 @@ const fetchPwdStrength = async (password) => {
         const result = await res.json();
         return result
     }
-    catch {
-        alert("error ..., please try again")
+    catch (er) {
+        console.log(er)
     }
     }
 
@@ -42,7 +42,7 @@ const checkPwdStrength = async () => {
         alert("error in checking yor password, please try again")
     } 
 }
-async function Register() {
+async function register() {
     try {
         const UserName = document.getElementById("regName").value
         const Password = document.getElementById("regPassword").value
@@ -68,20 +68,19 @@ async function Register() {
             alert(res)
             return
         }
-        sessionStorage.setItem("FirstName", FirstName)
-        sessionStorage.setItem("LastName", LastName)
+        sessionStorage.setItem("User", res.user)
         alert(`Welcome! ${FirstName} `)
     }
     catch (er) {
         alert(er)
     } 
 }
-async function Login () {
+async function login () {
     try {
-        const UserName = document.getElementById("logName").value
-        const Password = document.getElementById("logPassword").value
+        const userName = document.getElementById("logName").value
+        const password = document.getElementById("logPassword").value
 
-        const res = await fetch(`api/Users/?email=${UserName}&password=${Password}`, {
+        const res = await fetch(`api/Users/?email=${userName}&password=${password}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -89,12 +88,11 @@ async function Login () {
         })
         if (res.status == 204) {
             alert("user not found")
-            ShowRegisterTags()
+            showRegisterTags()
             return;
         }
         if (!res.ok) { 
-            throw new Error("error in login, please try again")
-            alert("error in login, please try again")}
+            alert("userName or password are not valid, please try again")}
         
         const data = await res.json();
         console.log(data)
