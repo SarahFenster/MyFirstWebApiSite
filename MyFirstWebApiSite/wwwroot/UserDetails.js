@@ -38,13 +38,13 @@ async function updateUserDetails() {
             progress.value = result / 4
             return
         }
-        const user = sessionStorage.getItem("User")
-        const res = await fetch(`api/Users/${user.id}`, {
+        const storagedUser = sessionStorage.getItem("User")
+        const res = await fetch(`api/Users/${storagedUser.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(user)
+            body: JSON.stringify(storagedUser)
         })
         if (res.status == 400) {
             alert("easy password...")

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace MyFirstWebApiSite;
 
@@ -16,8 +17,8 @@ public partial class Product
     public string? Image { get; set; }
 
     public double? Price { get; set; }
-
+    
     public virtual Category? Category { get; set; }
-
+    [JsonIgnore]
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }
