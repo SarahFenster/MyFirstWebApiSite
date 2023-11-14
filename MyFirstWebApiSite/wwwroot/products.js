@@ -15,22 +15,21 @@ const showProduct = async(product) => {
     cloneProduct.querySelector("h1").textContent = product.name
     cloneProduct.querySelector(".price").innerText = product.price
     cloneProduct.querySelector(".description").innerText = product.description
-    //cloneProduct.querySelector("button").addEventListener((click), () => { addToCart(product) }); 
+    cloneProduct.querySelector("button").addEventListener((click), () => { addToCart(product) }); 
     document.getElementById("PoductList").appendChild(cloneProduct)
 }
 
 const showAllCategories = async () => {
     const categories = await getAllCategories();
-    for (let i in categories) {
-        showCategory(i)
+    for (let i = 1; i < categories.length; i++) {
+        showCategory(categories[i])
     }
 }
 
-const showCategory = async() => {
+const showCategory = async(category) => {
     let tmp = document.getElementById("temp-category")
     let cloneCategory = tmp.content.cloneNode(true)
-    cloneCategory.querySelector("")
-
+    cloneCategory.querySelector(".OptionName").innerText=category.name
 }
 //<input type="checkbox" class="opt" id="" value="">
 //    <label for="">
