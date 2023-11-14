@@ -8,7 +8,7 @@ const loadStorePage = async () => {
     const categories = await getAllCategories();
     showAllProducts(products)
     showAllCategories(categories)
-    getMaxAndMinPrice(products)
+    //getMaxAndMinPrice(products)
 }
 const showAllProducts = async (products) => {
     for (let i = 0; i < products.length; i++)  {
@@ -40,12 +40,6 @@ const showCategory = async(category) => {
     cloneCategory.querySelector("input").id = category.id
     document.getElementById("categoryList").appendChild(cloneCategory)
 }
-//<input type="checkbox" class="opt" id="" value="">
-//    <label for="">
-//        <span class="OptionName"></span>
-//        <span class="Count"></span>
-
-//    </label>
 
 
 const getAllProducts = async () => {
@@ -71,10 +65,9 @@ const getAllCategories = async () => {
 }
 
 const getMaxAndMinPrice = (products) => {
-    console.log(products)
     const min = products.Min(p => p.price)
     console.log(min)
-    const max = products.Max(p => p.price)
+    const max = products.Max()
     document.getElementById("minPrice").innerHTML=min
 
 }
