@@ -1,9 +1,17 @@
 
 let count=0;
 
-const showAllProducts = async () => {
+const loadStorePage = async () => {
+    document.getElementById("PoductList").innerHTML = ''
+    document.getElementById("categoryList").innerHTML = ''
     const products = await getAllProducts();
-    for (let i = 1; i < products.length; i++)  {
+    const categories = await getAllCategories();
+    showAllProducts(products)
+    showAllCategories(categories)
+    getMaxAndMinPrice(products)
+}
+const showAllProducts = async (products) => {
+    for (let i = 0; i < products.length; i++)  {
         showProduct(products[i])
     }
 }
@@ -11,26 +19,26 @@ const showAllProducts = async () => {
 const showProduct = async(product) => {
     let tmp = document.getElementById("temp-card");
     let cloneProduct = tmp.content.cloneNode(true)
-    cloneProduct.querySelector("img").src = "./images/products/" + product.image+".wmf";
+    cloneProduct.querySelector("img").src = "./images/products/" + product.image
     cloneProduct.querySelector("h1").textContent = product.name
     cloneProduct.querySelector(".price").innerText = product.price
     cloneProduct.querySelector(".description").innerText = product.description
-    //cloneProduct.querySelector("button").addEventListener((click), () => { addToCart(product) }); 
+    cloneProduct.querySelector("button").addEventListener('click', () => { addToCart(product) }); 
     document.getElementById("PoductList").appendChild(cloneProduct)
 }
 
-const showAllCategories = async () => {
-    const categories = await getAllCategories();
-    for (let i in categories) {
-        showCategory(i)
+const showAllCategories = async (categories) => {
+    for (let i = 0; i < categories.length; i++) {
+        showCategory(categories[i])
     }
 }
 
-const showCategory = async() => {
+const showCategory = async(category) => {
     let tmp = document.getElementById("temp-category")
     let cloneCategory = tmp.content.cloneNode(true)
-    cloneCategory.querySelector("")
-
+    cloneCategory.querySelector(".OptionName").innerText = category.categoryName
+    cloneCategory.querySelector("input").id = category.id
+    document.getElementById("categoryList").appendChild(cloneCategory)
 }
 //<input type="checkbox" class="opt" id="" value="">
 //    <label for="">
@@ -53,7 +61,7 @@ const getAllProducts = async () => {
 
 const getAllCategories = async () => {
     try {
-        const res = fetch("https://localhost:44300/api/Categories")
+        const res = await fetch("https://localhost:44300/api/Categories")
         const categories = await res.json();
         return categories;
     }
@@ -62,14 +70,25 @@ const getAllCategories = async () => {
     }
 }
 
+const getMaxAndMinPrice = (products) => {
+    console.log(products)
+    const min = products.Min(p => p.price)
+    console.log(min)
+    const max = products.Max(p => p.price)
+    document.getElementById("minPrice").innerHTML=min
+
+}
+
 const filterProducts = async () => {
     const fromPrice =x
     const toPrice =x
      
 }
 
-const addToCart = async () => {
+const addToCart = async (item) => {
+    
     count = count + 1;
-    sessionStorage.setItem("item" + count, item.Id);
+    sessionStorage.setItem("item" + count, item);
+    document.getElementById("ItemsCountText").innerText = count
     
 }
