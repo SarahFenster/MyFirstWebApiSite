@@ -19,7 +19,7 @@
     </template>
     <template id="temp-category">
         <div class="cb checkbox">
-            <input type="checkbox" class="opt" id="" value="">
+            <input type="checkbox" class="opt" id="" checked="checked" onchange="filterProducts()">
             <label for="">
                 <span class="OptionName"></span>
                 <span class="Count"></span>
@@ -74,8 +74,9 @@
                 </span>
             </div>
         </div>
+        <span>בחירת קטגוריה</span>
         <div id="categoryList" class="filterBreak">
-            <span>בחירת קטגוריה</span>
+
         </div>
 
         <div id="nameFilter" class="nameFilter filterBreak">

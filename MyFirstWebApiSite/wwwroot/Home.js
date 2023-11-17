@@ -95,8 +95,8 @@ async function login () {
             alert("userName or password are not valid, please try again")}
         
         const data = await res.json();
-        console.log(data)
-        sessionStorage.setItem("User",data)
+        const user = await JSON.stringify(data);
+        sessionStorage.setItem("User",user)
         window.location.href = "UserDetails.html?firstName=" + data.firstName
     }
 

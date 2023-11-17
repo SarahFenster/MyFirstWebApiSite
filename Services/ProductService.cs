@@ -16,9 +16,9 @@ namespace Services
             _productRepository = productRepository;
         }
 
-        async public Task<IEnumerable<Product>> GetAllProducts()
+        async public Task<IEnumerable<Product>> GetAllProducts( string? desc, int? minPrice, int? maxPrice, int?[] categoryIds)
         {
-            return await _productRepository.GetAllProducts();
+            return await _productRepository.GetAllProducts(desc,minPrice,maxPrice,categoryIds);
         }
     }
 }
