@@ -17,7 +17,7 @@ namespace MyFirstWebApiSite.Controllers
         }
         // GET: api/<ProductsController>
         [HttpGet]
-        public async Task<IActionResult> Get( string? desc, int? minPrice, int? maxPrice, [FromQuery]int?[] categoryIds)
+        public async Task<IActionResult> Get( string? desc, int? minPrice, int? maxPrice, [FromQuery] int?[] categoryIds)
         {
             var products = await _productServices.GetAllProducts(desc,minPrice,maxPrice,categoryIds);
             return Ok(products);
