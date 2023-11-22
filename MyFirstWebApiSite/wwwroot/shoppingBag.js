@@ -76,7 +76,8 @@ const createOrder = async () => {
         "userId": user.id,
         "orderSum": totalPrice,
         "orderDate": new Date(),
-        "orderItems":orderItems
+        "orderItems": orderItems
+
     }
     return order;
 }
