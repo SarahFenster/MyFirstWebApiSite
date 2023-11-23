@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using DTO;
+using Microsoft.AspNetCore.Mvc;
 using Services;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,11 +12,13 @@ namespace MyFirstWebApiSite.Controllers
     public class OrdersController : ControllerBase
 {
          IOrderService _orderServices;
-    public OrdersController(IOrderService orderService)
+        IMapper _mapper;
+        public OrdersController(IOrderService orderService, IMapper mapper)
     {
             _orderServices = orderService;
+            _mapper = mapper;
     }
-    
+
         // GET: api/<OrdersController>
         [HttpGet]
         public IEnumerable<string> Get()
@@ -23,11 +27,11 @@ namespace MyFirstWebApiSite.Controllers
         }
 
         // GET api/<OrdersController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        //[HttpGet("{id}")]
+        //public string Get(int id)
+        //{
+        //    return "value";
+        //}
 
         // POST api/<OrdersController>
         [HttpPost]
@@ -37,8 +41,12 @@ namespace MyFirstWebApiSite.Controllers
                 try
                 {
                     Order createdOrder = await _orderServices.addOrder(order);
-                    if (createdOrder != null)
-                        return CreatedAtAction(nameof(Get), new {id = createdOrder.Id }, order);
+                if (createdOrder != null)
+                {
+                    OrderDTO DTOorder = _mapper.Map<Order, OrderDTO>(order);
+                    return CreatedAtAction(nameof(Get), new {id = DTOorder.Id }, DTOorder);
+                }
+                        
                     return BadRequest();
                 }
                 catch (Exception ex)
@@ -49,15 +57,15 @@ namespace MyFirstWebApiSite.Controllers
         
 
         // PUT api/<OrdersController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        //[HttpPut("{id}")]
+        //public void Put(int id, [FromBody] string value)
+        //{
+        //}
 
         // DELETE api/<OrdersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
     }
 }

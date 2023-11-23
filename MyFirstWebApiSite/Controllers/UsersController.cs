@@ -4,6 +4,8 @@ using System.Reflection.Metadata.Ecma335;
 using System.Security.Principal;
 using System.Text.Json;
 using Services;
+using AutoMapper;
+using DTO;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,10 +17,12 @@ namespace MyFirstWebApiSite.Controllers
     public class UsersController : ControllerBase
     {
         IUserServices _userServices ;
+        IMapper _mapper;
 
-        public UsersController(IUserServices userServices)
+        public UsersController(IUserServices userServices, IMapper mapper)
         {
             _userServices = userServices;
+            _mapper = mapper;
         }
 
         // GET: api/<UsersController>
@@ -36,13 +40,18 @@ namespace MyFirstWebApiSite.Controllers
             return Ok(result);
         }
 
-        // GET api/<UsersController>/
-        [HttpGet]
-        async public Task<ActionResult> Get([FromQuery] string email, [FromQuery] string password)
+        // POST api/<UsersController>/login
+        [HttpPost("login")]
+        async public Task<ActionResult> login([FromBody] UserLoginDTO userDTO)
         {
-            User user = await _userServices.getUserByEmailAndPassword(email, password);
+
+            User user = await _userServices.getUserByEmailAndPassword(userDTO.UserName, userDTO.Password);
             if (user != null)
-                return Ok(user);
+            {
+                UserLoginDTO createdUserDTO = _mapper.Map<User, UserLoginDTO> (user);
+                return Ok(createdUserDTO);
+            }
+               
             return NoContent();
         }
 

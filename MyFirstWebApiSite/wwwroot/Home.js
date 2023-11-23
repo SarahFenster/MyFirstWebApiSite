@@ -77,14 +77,16 @@ async function register() {
 }
 async function login () {
     try {
-        const userName = document.getElementById("logName").value
-        const password = document.getElementById("logPassword").value
+        const user = {
+            "userName": document.getElementById("logName").value,
+            "password" : document.getElementById("logPassword").value
+        }
 
-        const res = await fetch(`api/Users/?email=${userName}&password=${password}`, {
-            method: "GET",
+        const res = await fetch(`api/Users/login`, {
+            method: "POST",
             headers: {
                 "Content-Type": "application/json"
-            }
+            }, body: JSON.stringify(user)
         })
         if (res.status == 204) {
             alert("user not found")
@@ -92,11 +94,12 @@ async function login () {
             return;
         }
         if (!res.ok) { 
-            alert("userName or password are not valid, please try again")}
+            alert("userName or password are not valid, please try again")
+            return        }
         
         const data = await res.json();
-        const user = await JSON.stringify(data);
-        sessionStorage.setItem("User",user)
+        const createdUser = await JSON.stringify(data);
+        sessionStorage.setItem("User", createdUser)
         window.location.href = "UserDetails.html?firstName=" + data.firstName
     }
 

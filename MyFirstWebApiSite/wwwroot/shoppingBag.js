@@ -13,7 +13,7 @@ const showItem = async (item) => {
     totalPrice += item.price
     const tmp = document.getElementById('temp-row')
     const clone = tmp.content.cloneNode(true)
-    clone.querySelector(".image").src = "./images/products" + item.image.trim()
+    clone.querySelector("img").src = "./images/products/" + item.image
     clone.querySelector(".itemName").innerText = item.name
     clone.querySelector(".price").innerText = item.price
     clone.querySelector("button").addEventListener('click', () => deleteProduct(item))
@@ -40,7 +40,7 @@ const placeOrder = async () => {
     if (!user)
         window.location.href = "home.html"
     else { 
-        const order = await createOrder();
+        const order = await createOrder(user);
         const createdOrder = await postOrder(order);
         alert("added successfuly!")
 }        
@@ -61,13 +61,13 @@ const postOrder = async (order) => {
     return createdOrder;
 }
 
-const createOrder = async () => {
-    const user = JSON.parse(sessionStorage.getItem("User"))
+const createOrder = async (stringUser) => {
+    const user = JSON.parse(stringUser)
     const cart = JSON.parse(sessionStorage.getItem("cart"))
     let orderItems = []
     for (let i = 0; i < cart.length; i++) {
         const ord = orderItems.findIndex(o=>o.productId==cart[i].id)
-        if (ord!=null)
+        if (ord>-1)
             orderItems[ord].quantity++;
         else 
             orderItems.push({"productId":cart[i].id,"quantity":1})   

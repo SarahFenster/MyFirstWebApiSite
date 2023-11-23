@@ -19,7 +19,7 @@ namespace Repositories
 
         async public Task<IEnumerable<Category>> GetAllCategories()
         {
-            return await _clothesShop326023306Context.Categories.ToListAsync();
+            return await _clothesShop326023306Context.Categories.Include(c=>c.Products).ToListAsync();
         }
     }
 }

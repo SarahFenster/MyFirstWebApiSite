@@ -17,6 +17,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddDbContext<ClothesShop326023306Context>(options => options.UseSqlServer
 ("Server=srv2\\pupils;Database=ClothesShop_326023306;Trusted_Connection=True;TrustServerCertificate=True"));
 var app = builder.Build();

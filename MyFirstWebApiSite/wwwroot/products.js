@@ -3,9 +3,13 @@ let count = 0;
 let cart=[]
 
 const loadStorePage = async () => {
-    const cart = JSON.parse(sessionStorage.getItem('cart'))
-    if (cart)
-        count = cart.length;
+    let storagedCart = JSON.parse(sessionStorage.getItem('cart'))
+    if (storagedCart) {
+        count = storagedCart.length;
+        document.getElementById("ItemsCountText").innerText = count
+        for (let i = 0; i < storagedCart.length; i++)
+            cart.push(storagedCart[i])
+    }   
     filterProducts();
     const categories = await getAllCategories();
     showAllCategories(categories)
