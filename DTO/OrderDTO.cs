@@ -14,7 +14,7 @@ namespace DTO
 
         public double? OrderSum { get; set; }
 
-        public DateTime? OrderDate { get; set; }//change
+        public DateTime? OrderDate { get; set; }
 
         public virtual ICollection<OrderItemDTO> OrderItems { get; set; } = new List<OrderItemDTO>();
 

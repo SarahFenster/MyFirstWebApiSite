@@ -36,17 +36,16 @@ namespace MyFirstWebApiSite.Controllers
         // POST api/<OrdersController>
         [HttpPost]
         
-            async public Task<ActionResult<User>> Post([FromBody] Order order)
+            async public Task<ActionResult<User>> Post([FromBody] OrderDTO orderDTO)
             {
                 try
                 {
+                    Order order = _mapper.Map<OrderDTO,Order>(orderDTO);
                     Order createdOrder = await _orderServices.addOrder(order);
                 if (createdOrder != null)
                 {
-                    OrderDTO DTOorder = _mapper.Map<Order, OrderDTO>(order);
-                    return CreatedAtAction(nameof(Get), new {id = DTOorder.Id }, DTOorder);
-                }
-                        
+                    return CreatedAtAction(nameof(Get), new {id = createdOrder.Id }, orderDTO);
+                }   
                     return BadRequest();
                 }
                 catch (Exception ex)

@@ -16,13 +16,15 @@ namespace MyFirstWebApiSite.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        IUserServices _userServices ;
-        IMapper _mapper;
+        private readonly IUserServices _userServices ;
+        private readonly IMapper _mapper;
+        private readonly ILogger<UsersController> _logger;
 
-        public UsersController(IUserServices userServices, IMapper mapper)
+        public UsersController(IUserServices userServices, IMapper mapper, ILogger<UsersController> logger)
         {
             _userServices = userServices;
             _mapper = mapper;
+            _logger = logger;
         }
 
         // GET: api/<UsersController>
@@ -44,16 +46,25 @@ namespace MyFirstWebApiSite.Controllers
         [HttpPost("login")]
         async public Task<ActionResult> login([FromBody] UserLoginDTO userDTO)
         {
-
-            User user = await _userServices.getUserByEmailAndPassword(userDTO.UserName, userDTO.Password);
+            try {
+                //int y = 0;
+                //int x = 6 / y;
+                User user = await _userServices.getUserByEmailAndPassword(userDTO.UserName, userDTO.Password);
             if (user != null)
             {
                 UserLoginDTO createdUserDTO = _mapper.Map<User, UserLoginDTO> (user);
+                _logger.LogInformation($"Login attempted with User Name {createdUserDTO.UserName} and password {createdUserDTO.Password}");
                 return Ok(createdUserDTO);
             }
-               
+                
             return NoContent();
-        }
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"error while login: {ex}");
+                return BadRequest();
+            }
+            }
 
         // POST api/<UsersController>
         [HttpPost]

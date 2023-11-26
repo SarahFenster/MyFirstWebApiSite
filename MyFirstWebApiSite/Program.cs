@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using MyFirstWebApiSite;
 using Repositories;
 using Services;
+using Microsoft.Extensions.Configuration;
+using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +20,10 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddDbContext<ClothesShop326023306Context>(options => options.UseSqlServer
-("Server=srv2\\pupils;Database=ClothesShop_326023306;Trusted_Connection=True;TrustServerCertificate=True"));
+builder.Host.UseNLog();
+builder.Configuration.GetSection("ConnectionStrings:MyShop");
+//builder.Services.AddDbContext<ClothesShop326023306Context>(options => options.UseSqlServer
+//("Server=srv2\\pupils;Database=ClothesShop_326023306;Trusted_Connection=True;TrustServerCertificate=True"));
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
