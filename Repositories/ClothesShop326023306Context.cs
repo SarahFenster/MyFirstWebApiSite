@@ -7,15 +7,15 @@ namespace MyFirstWebApiSite;
 
 public partial class ClothesShop326023306Context : DbContext
 {
-    IConfiguration _configuration;
-    public ClothesShop326023306Context(IConfiguration configuration)
-    {  
-      _configuration = configuration;
+    public IConfiguration _configuration;
+    public ClothesShop326023306Context()
+    {
     }
 
-    public ClothesShop326023306Context(DbContextOptions<ClothesShop326023306Context> options)
+    public ClothesShop326023306Context(DbContextOptions<ClothesShop326023306Context> options, IConfiguration configuration)
         : base(options)
     {
+        _configuration = configuration;
     }
 
     public virtual DbSet<Category> Categories { get; set; }
@@ -30,7 +30,6 @@ public partial class ClothesShop326023306Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         => optionsBuilder.UseSqlServer(_configuration.GetConnectionString("MyShop"));
-    //"Server=srv2\\pupils;Database=ClothesShop_326023306;Trusted_Connection=True;TrustServerCertificate=True"
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

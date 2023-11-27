@@ -2,29 +2,30 @@
 <html>
 <head>
     <script src="home.js"></script>
+    <link href="home.css" rel="stylesheet" />
     <meta charset="utf-8" />
     <title></title>
 </head>
 <body>
     <div id="body">
-        <label>User Name</label>
-        <input id="logName" /> <br/>
-        <label>Password</label>
-        <input id="logPassword"type="password" /> <br />
-        <button onclick="login()" >Login</button><br />
-        <button onclick="showRegisterTags()">New User</button><br/><br/><br/>
-         <div  id="register" style="visibility:hidden">
-         <label>User Name</label>
-         <input id="regName" /> <br/>
-         <label>Password</label>                                                                         
-         <input id="regPassword" type="password" /> <progress id="progress" value="0"></progress>
-             <button onclick="checkPwdStrength()">check password strength</button><br/>
-         <label>First Name</label>
-         <input id="regFName" /> <br/>
-         <label>Last Name</label>
-         <input id="regLName" /> <br/>
-             <button onclick="register()">Register</button>
-         </div>
+        <label>User Name</label><br />
+        <input id="logName" /> <br />
+        <label>Password</label> <br />
+        <input id="logPassword" type="password" /> <br />
+        <button onclick="login()">Login</button><br />
+        <button onclick="showRegisterTags()">New User</button><br /><br /><br />
+        <div id="register" style="visibility:hidden">
+            <label>User Name</label>
+            <input id="regName" /> <br />
+            <label>Password</label>
+            <input id="regPassword" type="password" /> <progress id="progress" value="0"></progress>
+            <button onclick="checkPwdStrength()">check password strength</button><br />
+            <label>First Name</label>
+            <input id="regFName" /> <br />
+            <label>Last Name</label>
+            <input id="regLName" /> <br />
+            <button onclick="register()">Register</button>
+        </div>
     </div>
 </body>
 </html>

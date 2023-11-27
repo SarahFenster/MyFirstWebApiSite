@@ -29,9 +29,10 @@ const getMyCart = async () => {
 
 const deleteProduct = async (item) => {
     totalPrice -= item.price
-    const cart = JSON.parse(sessionStorage.getItem('cart'))
-    const filteredCart = cart.filter(prod => prod.id != item.id)
-    sessionStorage.setItem('cart', JSON.stringify(filteredCart))
+    let cart = JSON.parse(sessionStorage.getItem('cart'))
+    let ind = cart.findIndex(prod => prod.id == item.id)
+    cart.splice(ind, 1);
+    sessionStorage.setItem('cart', JSON.stringify(cart))
     getMyCart()
 }
 
