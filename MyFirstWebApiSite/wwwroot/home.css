@@ -1,4 +1,9 @@
-﻿body {
-    align-items: center;
-    align-content:center;
+﻿
+body {
+    margin-left: 500px;
+}
+
+button {
+    border-width: thick;
+    border-color: darkolivegreen;
 }

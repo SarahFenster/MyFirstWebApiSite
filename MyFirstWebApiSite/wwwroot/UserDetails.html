@@ -7,18 +7,20 @@
     <title></title>
 </head>
 <body>
-    <h3>Welcome to our Wonderfull Site!!</h3><br />
-    <a href="Products.html">לתחילת קניה</a><br />
-    <button onclick="showUpdateTags()">Update Details</button><br />
+    <div id="wrap">
+        <h3>Welcome to our Wonderfull Site!!</h3><br />
+        <a href="Products.html">לתחילת קניה</a><br /><br />
+        <button onclick="showUpdateTags()">Update Details</button><br /><br />
+    </div>
     <div id="update" style="visibility:hidden">
         <label>User Name</label>
-        <input id="updateName" /> <br />
+        <input id="updateName" /> <br /><br />
         <label>Password</label>
-        <input id="updatePassword" type="password" /> <progress value="0"></progress> <br /><br />
+        <input id="updatePassword" type="password" /> <progress id="progress" value="0"></progress> <br /><br />
         <label>First Name</label>
-        <input id="updateFName" /> <br />
+        <input id="updateFName" /> <br /><br />
         <label>Last Name</label>
-        <input id="updateLName" /> <br />
+        <input id="updateLName" /> <br /><br />
         <button onclick="updateUserDetails()">Update</button><br />
 
     </div>

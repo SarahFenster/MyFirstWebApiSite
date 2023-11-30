@@ -221,3 +221,13 @@ p.description{
         .pagination a:hover:not(.active) {
             background-color: #ddd;
         }
+        #filters{
+            position:fixed;
+            
+        }
+#PoductList{
+
+}
+/*header {
+    position: absolute
+}*/

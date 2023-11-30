@@ -54,7 +54,7 @@ namespace MyFirstWebApiSite.Controllers
             {
                 UserLoginDTO createdUserDTO = _mapper.Map<User, UserLoginDTO> (user);
                 _logger.LogInformation($"Login attempted with User Name {createdUserDTO.UserName} and password {createdUserDTO.Password}");
-                return Ok(createdUserDTO);
+                return Ok(user);
             }
                 
             return NoContent();
@@ -73,9 +73,9 @@ namespace MyFirstWebApiSite.Controllers
             try
             {
                User createdUser = await _userServices.addUserToDB(user);
-                if (user != null)
+                if (createdUser != null)
                     return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
-                return BadRequest();
+                return BadRequest(user);
             }
             catch (Exception ex)
             {

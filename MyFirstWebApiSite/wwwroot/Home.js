@@ -64,8 +64,7 @@ async function register() {
             body: JSON.stringify(user)
         })
         if (!res.ok) {
-            console.log(res)//how should I return the message from the validations in class user?
-            alert(res)
+            alert("userName or password are not valid, please try again")
             return
         }
         sessionStorage.setItem("User", res.user)

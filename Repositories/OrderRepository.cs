@@ -22,5 +22,12 @@ namespace Repositories
             await _clothesShop326023306Context.SaveChangesAsync();
             return order;
         }
+
+        async public Task<double> getItemPrice(OrderItem orderItem)
+        {
+            Product product= _clothesShop326023306Context.Products.Where(item => item.Id == orderItem.ProductId).FirstOrDefault();
+            return product.Price;
+
+        }
     }
 }

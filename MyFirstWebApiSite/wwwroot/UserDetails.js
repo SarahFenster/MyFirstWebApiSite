@@ -3,6 +3,14 @@
 const showUpdateTags = () => {
     const updateTags = document.getElementById("update")
     updateTags.style.visibility = "initial" 
+    const user = JSON.parse(sessionStorage.getItem("User"))
+     document.getElementById("updateName").value=user.userName
+    const password=document.getElementById("updatePassword").value = user.password
+    document.getElementById("updateFName").value = user.firstName
+    document.getElementById("updateLName").value = user.lastName
+    let result = fetchPwdStrength(password)
+    document.getElementById("progress").value = result / 4;
+   
 }
 
 const fetchPwdStrength = async (password) => {
@@ -35,10 +43,11 @@ async function updateUserDetails() {
         const result = fetchPwdStrength(Password)
         if (result < 2) {
             alert("easy password... choose a differrent one")
+            const progress = document.getElementById("progress")
             progress.value = result / 4
             return
         }
-        const storagedUser = sessionStorage.getItem("User")
+        const storagedUser = JSON.parse(sessionStorage.getItem("User"))
         const res = await fetch(`api/Users/${storagedUser.id}`, {
             method: "PUT",
             headers: {

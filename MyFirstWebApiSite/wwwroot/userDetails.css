@@ -1,9 +1,22 @@
 ﻿body {
-align-items:center;
+    margin-left: 500px;
+    /*margin-right: auto;*/
 }
 h3{
-    text-align:center;
+    /*text-align:center;*/
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color:darkolivegreen;
+}
 
+#wrap {
+    align-items: center;
+   
+}
+button {
+    border-width: thick;
+    border-color: darkolivegreen;
+}
+a{
+    color:black;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
