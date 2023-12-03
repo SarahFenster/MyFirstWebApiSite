@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -25,6 +26,7 @@ public partial class ClothesShop326023306Context : DbContext
     public virtual DbSet<OrderItem> OrderItems { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
+    public virtual DbSet<Rating> Rating { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -97,6 +99,36 @@ public partial class ClothesShop326023306Context : DbContext
             entity.HasOne(d => d.Category).WithMany(p => p.Products)
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("fk_product_category");
+        });
+
+        modelBuilder.Entity<Rating>(entity =>
+        {
+            entity.ToTable("RATING");
+
+            entity.Property(e => e.RatingId).HasColumnName("RATING_ID");
+
+            entity.Property(e => e.Host)
+                .HasColumnName("HOST")
+                .HasMaxLength(50);
+
+            entity.Property(e => e.Method)
+                .HasColumnName("METHOD")
+                .HasMaxLength(10)
+                .IsFixedLength();
+
+            entity.Property(e => e.Path)
+                .HasColumnName("PATH")
+                .HasMaxLength(50);
+
+            entity.Property(e => e.RecordDate)
+             .HasColumnName("Record_Date")
+             .HasColumnType("datetime");
+
+            entity.Property(e => e.Referer)
+                .HasColumnName("REFERER")
+                .HasMaxLength(100);
+
+            entity.Property(e => e.UserAgent).HasColumnName("USER_AGENT");
         });
 
         modelBuilder.Entity<User>(entity =>

@@ -32,7 +32,8 @@ namespace MyFirstWebApiSite.Controllers
         async public Task<ActionResult<User>> Get(int id)
         {
             User user = await _userServices.getUserById(id);
-             return user == null ? NoContent() : Ok(user);
+            UserDTO userDTO= _mapper.Map< User, UserDTO>(user);
+            return user == null ? NoContent() : Ok(userDTO);
         }
 
         [HttpPost("checkYourPass")]
@@ -44,51 +45,43 @@ namespace MyFirstWebApiSite.Controllers
 
         // POST api/<UsersController>/login
         [HttpPost("login")]
-        async public Task<ActionResult> login([FromBody] UserLoginDTO userDTO)
+        async public Task<ActionResult> login([FromBody] UserLoginDTO userLoginDTO)
         {
-            try {
-                //int y = 0;
-                //int x = 6 / y;
-                User user = await _userServices.getUserByEmailAndPassword(userDTO.UserName, userDTO.Password);
+                User user = await _userServices.getUserByEmailAndPassword(userLoginDTO.UserName, userLoginDTO.Password);
             if (user != null)
             {
-                UserLoginDTO createdUserDTO = _mapper.Map<User, UserLoginDTO> (user);
-                _logger.LogInformation($"Login attempted with User Name {createdUserDTO.UserName} and password {createdUserDTO.Password}");
-                return Ok(user);
-            }
-                
+                UserDTO userDTO = _mapper.Map<User, UserDTO>(user);
+                _logger.LogInformation($"Login attempted with User Name {userDTO.UserName} and password {userDTO.Password}");
+                return Ok(userDTO);
+            }   
             return NoContent();
             }
-            catch(Exception ex)
-            {
-                _logger.LogError($"error while login: {ex}");
-                return BadRequest();
-            }
-            }
+            
 
         // POST api/<UsersController>
         [HttpPost]
-         async public Task<ActionResult<User>> Post([FromBody] User user)
+         async public Task<ActionResult<User>> Post([FromBody] UserDTO userDTO)
         {
-            try
-            {
-               User createdUser = await _userServices.addUserToDB(user);
+            User user = _mapper.Map<UserDTO, User>(userDTO);
+            User createdUser = await _userServices.addUserToDB(user);
                 if (createdUser != null)
-                    return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
-                return BadRequest(user);
-            }
-            catch (Exception ex)
             {
-                throw new Exception(ex.Message);
-            }
+                userDTO.Id=createdUser.Id;
+                return CreatedAtAction(nameof(Get), new { id = user.Id }, userDTO);
+            }    
+                return BadRequest(user);
         }
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
         async public Task<ActionResult<User>> Put(int id, [FromBody] UserDTO userToUpdate)
         {
-            var result = await _userServices.updateUserDetails(id, userToUpdate);
-            return result != null ? Ok(User) : BadRequest("Password is not strong enough");
+            User user= _mapper.Map<UserDTO,User>(userToUpdate);
+            user.Id=id;
+            var result = await _userServices.updateUserDetails(id, user);
+            if (result!=null)
+                return Ok(userToUpdate);
+            return BadRequest("Password is not strong enough");
         }
 
     }

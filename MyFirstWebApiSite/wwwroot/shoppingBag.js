@@ -43,7 +43,7 @@ const placeOrder = async () => {
     else { 
         const order = await createOrder(user);
         const createdOrder = await postOrder(order);
-        if (createdOrder)
+        if (createdOrder) 
             alert("order number " + createdOrder.id + " added successfuly!")
 }        
 }

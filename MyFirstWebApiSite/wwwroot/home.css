@@ -7,3 +7,6 @@ button {
     border-width: thick;
     border-color: darkolivegreen;
 }
+label{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

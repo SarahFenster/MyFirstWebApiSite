@@ -9,7 +9,6 @@ namespace DTO
 {
     public class UserLoginDTO
     {
-        public int Id { get; set; }
         [StringLength(20, ErrorMessage ="Password length can't be more than 20")]
         public string UserName { get; set; }
         [Required]

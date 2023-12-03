@@ -4,6 +4,8 @@ using Repositories;
 using Services;
 using Microsoft.Extensions.Configuration;
 using NLog.Web;
+using MyFirstWebApiSite.MiddleWares;
+using PresidentsApp.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,8 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IRatingRepository, RatingRepository>();
+builder.Services.AddScoped<IRatingService, RatingService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Host.UseNLog();
 
@@ -33,7 +37,8 @@ if (app.Environment.IsDevelopment())
 }
 
 // Configure the HTTP request pipeline.
-
+app.UseErrorHandlingMiddleware();
+app.UseRatingMiddleware();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

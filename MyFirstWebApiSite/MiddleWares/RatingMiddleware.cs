@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Services;
 using System.Threading.Tasks;
 
 namespace MyFirstWebApiSite.MiddleWares
@@ -14,10 +15,17 @@ namespace MyFirstWebApiSite.MiddleWares
             _next = next;
         }
 
-        public Task Invoke(HttpContext httpContext)
+        public async Task Invoke(HttpContext httpContext, IRatingService ratingService)
         {
 
-            return _next(httpContext);
+            var host = httpContext.Request.Host;
+            var method = httpContext.Request.Method;
+            var path = httpContext.Request.Path;
+            var referer =httpContext.Request;
+            var userAgent = httpContext;
+            var recordDate = new DateTime();
+
+             await _next(httpContext);
         }
     }
 

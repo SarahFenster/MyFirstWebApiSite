@@ -26,13 +26,6 @@ namespace MyFirstWebApiSite.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/<OrdersController>/5
-        //[HttpGet("{id}")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
         // POST api/<OrdersController>
         [HttpPost]
         
@@ -44,7 +37,8 @@ namespace MyFirstWebApiSite.Controllers
                     Order createdOrder = await _orderServices.addOrder(order);
                 if (createdOrder != null)
                 {
-                    return CreatedAtAction(nameof(Get), new {id = createdOrder.Id }, orderDTO);
+                    orderDTO.Id=createdOrder.Id;
+                    return CreatedAtAction(nameof(Get), new {id = orderDTO.Id }, orderDTO);
                 }   
                     return BadRequest();
                 }
@@ -53,18 +47,6 @@ namespace MyFirstWebApiSite.Controllers
                     throw new Exception(ex.Message);
                 }
             }
-        
 
-        // PUT api/<OrdersController>/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody] string value)
-        //{
-        //}
-
-        // DELETE api/<OrdersController>/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

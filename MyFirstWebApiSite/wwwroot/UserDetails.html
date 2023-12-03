@@ -8,7 +8,8 @@
 </head>
 <body>
     <div id="wrap">
-        <h3>Welcome to our Wonderfull Site!!</h3><br />
+        <h3 id="welcome" > Welcome </h3><br />
+        <script>document.getElementById("welcome").innerHTML += (JSON.parse(sessionStorage.getItem("User")).firstName+'!')</script>
         <a href="Products.html">לתחילת קניה</a><br /><br />
         <button onclick="showUpdateTags()">Update Details</button><br /><br />
     </div>
