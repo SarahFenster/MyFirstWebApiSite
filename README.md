@@ -7,10 +7,10 @@ In order to run this project:
 Vs 2022 version (and on)
 DB- SQL
 For creating the DB, you can use code-first abilities. All what you need is: 
-Open your package manager console
+Open your package manager console, 
 
 Write: 1. add-migration [MyDataBaseName]
- 		2.Update-DataBase	
+ 		2.Update-DataBase. 	
 And your DB is ready for use!
 
 
