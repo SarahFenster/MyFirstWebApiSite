@@ -85,7 +85,7 @@ namespace MyFirstWebApiSite.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        async public Task<ActionResult<User>> Put(int id, [FromBody] User userToUpdate)
+        async public Task<ActionResult<User>> Put(int id, [FromBody] UserDTO userToUpdate)
         {
             var result = await _userServices.updateUserDetails(id, userToUpdate);
             return result != null ? Ok(User) : BadRequest("Password is not strong enough");

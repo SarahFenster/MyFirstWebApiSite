@@ -34,13 +34,12 @@ const fetchPwdStrength = async (password) => {
 
 async function updateUserDetails() {
     try {
-        const UserName = document.getElementById("updateName").value
-        const Password = document.getElementById("updatePassword").value
-        const FirstName = document.getElementById("updateFName").value
-        const LastName = document.getElementById("updateLName").value
-        const user = { UserName, Password, FirstName, LastName }
-        let id;
-        const result = fetchPwdStrength(Password)
+        const userName = document.getElementById("updateName").value
+        const password = document.getElementById("updatePassword").value
+        const firstName = document.getElementById("updateFName").value
+        const lastName = document.getElementById("updateLName").value
+        const user = { userName, password, firstName, lastName }
+        const result = fetchPwdStrength(password)
         if (result < 2) {
             alert("easy password... choose a differrent one")
             const progress = document.getElementById("progress")
@@ -53,7 +52,7 @@ async function updateUserDetails() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(storagedUser)
+            body: JSON.stringify(user)
         })
         if (res.status == 400) {
             alert("easy password...")
@@ -61,6 +60,10 @@ async function updateUserDetails() {
         }
         if (!res.ok) {
             alert(res)
+            return
+        }
+        if (res.status == 204) {
+            alert("user not found")
             return
         }
         alert("Updated!")
