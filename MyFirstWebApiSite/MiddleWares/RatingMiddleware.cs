@@ -10,7 +10,6 @@ namespace MyFirstWebApiSite.MiddleWares
     public class RatingMiddleware
     {
         private readonly RequestDelegate _next;
-        //private readonly IRatingService _ratingService;
 
         public RatingMiddleware(RequestDelegate next)
         {
