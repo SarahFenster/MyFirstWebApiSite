@@ -11,9 +11,8 @@ const loadStorePage = async () => {
             cart.push(storagedCart[i])
     }   
     filterProducts();
-    const categories = await getAllCategories();
-    showAllCategories(categories)
-    
+    let categories = await getAllCategories();
+    showAllCategories(categories) 
 }
 const showAllProducts = async (products) => {
     for (let i = 0; i < products.length; i++)  {
@@ -63,8 +62,8 @@ const getAllProducts = async (url) => {
 
 const getAllCategories = async () => {
     try {
-        const res = await fetch('api/Categories')
-        const categories = await res.json();
+        let res = await fetch('api/Categories')
+        let categories = await res.json();
         return categories;
     }
     catch (ex) {
@@ -73,8 +72,8 @@ const getAllCategories = async () => {
 }
 
 const getMaxAndMinPrice = (products) => {
-    const min = Math.min(...products.map(p => p.price))
-    const max = Math.max(...products.map(p => p.price))
+    let min = Math.min(...products.map(p => p.price))
+    let max = Math.max(...products.map(p => p.price))
     document.getElementById("minPrice").value = min
     document.getElementById("maxPrice").value = max
 }
@@ -105,7 +104,7 @@ const filterProducts = async () => {
             url += '&categoryIds=' + categories[i]
         }
     }  
-    const products = await getAllProducts(url);
+    let products = await getAllProducts(url);
     if (products) {
         showAllProducts(products);
         getMaxAndMinPrice(products);

@@ -42,20 +42,20 @@ const checkPwdStrength = async () => {
         alert("error in checking yor password, please try again")
     } 
 }
-async function register() {
+const register = async () => {
     try {
-        const UserName = document.getElementById("regName").value
-        const Password = document.getElementById("regPassword").value
-        const FirstName = document.getElementById("regFName").value
-        const LastName = document.getElementById("regLName").value
-        const result = await fetchPwdStrength(Password)
+        const userName = document.getElementById("regName").value
+        const password = document.getElementById("regPassword").value
+        const firstName = document.getElementById("regFName").value
+        const lastName = document.getElementById("regLName").value
+        const result = await fetchPwdStrength(password)
         var progressBar = document.getElementById("progress")
         if (result < 2) {
             alert("easy password... choose a differrent one")
             progressBar.value = result/4
             return
         }
-        const user = { UserName, Password, FirstName, LastName }
+        const user = { userName, password, firstName, lastName }
         const res = await fetch("api/Users", {
             method: "POST",
             headers: {
@@ -64,17 +64,17 @@ async function register() {
             body: JSON.stringify(user)
         })
         if (!res.ok) {
-            alert("userName or password are not valid, please try again")
+            alert("user name or password are not valid, please try again")
             return
         }
         sessionStorage.setItem("User", res.user)
-        alert(`Welcome! ${FirstName} `)
+        alert(`Welcome! ${firstName} `)
     }
     catch (er) {
         alert(er)
     } 
 }
-async function login () {
+const login = async () =>{
     try {
         const user = {
             "userName": document.getElementById("logName").value,
@@ -93,7 +93,7 @@ async function login () {
             return;
         }
         if (!res.ok) { 
-            alert("userName or password are not valid, please try again")
+            alert("user name or password are not valid, please try again")
             return        }
         
         const data = await res.json();

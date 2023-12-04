@@ -11,8 +11,8 @@ const showCartItems = async (items) => {
 
 const showItem = async (item) => {
     totalPrice += item.price
-    const tmp = document.getElementById('temp-row')
-    const clone = tmp.content.cloneNode(true)
+    let tmp = document.getElementById('temp-row')
+    let clone = tmp.content.cloneNode(true)
     clone.querySelector("img").src = "./images/products/" + item.image
     clone.querySelector(".itemName").innerText = item.name
     clone.querySelector(".price").innerText = item.price
@@ -37,18 +37,18 @@ const deleteProduct = async (item) => {
 }
 
 const placeOrder = async () => {
-    const user = sessionStorage.getItem("User");
+    let user = sessionStorage.getItem("User");
     if (!user)
         window.location.href = "home.html"
     else { 
-        const order = await createOrder(user);
-        const createdOrder = await postOrder(order);
+        let order = await createOrder(user);
+        let createdOrder = await postOrder(order);
         if (createdOrder) 
             alert("order number " + createdOrder.id + " added successfuly!")
 }        
 }
 const postOrder = async (order) => {
-    const res = await fetch("api/Orders", {
+    let res = await fetch("api/Orders", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -59,22 +59,22 @@ const postOrder = async (order) => {
         alert("failed")
         return
     }
-    const createdOrder = await res.json();
+    let createdOrder = await res.json();
     return createdOrder;
 }
 
 const createOrder = async (stringUser) => {
-    const user = JSON.parse(stringUser)
-    const cart = JSON.parse(sessionStorage.getItem("cart"))
+    let user = JSON.parse(stringUser)
+    let cart = JSON.parse(sessionStorage.getItem("cart"))
     let orderItems = []
     for (let i = 0; i < cart.length; i++) {
-        const ord = orderItems.findIndex(o=>o.productId==cart[i].id)
+        let ord = orderItems.findIndex(o=>o.productId==cart[i].id)
         if (ord>-1)
             orderItems[ord].quantity++;
         else 
             orderItems.push({"productId":cart[i].id,"quantity":1})   
     }
-    const order = {
+    let order = {
         "userId": user.id,
         "orderSum": totalPrice,
         "orderDate": new Date(),

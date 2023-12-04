@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Services;
+using Entities;
 using System.Threading.Tasks;
 
 namespace MyFirstWebApiSite.MiddleWares
@@ -9,6 +10,7 @@ namespace MyFirstWebApiSite.MiddleWares
     public class RatingMiddleware
     {
         private readonly RequestDelegate _next;
+        //private readonly IRatingService _ratingService;
 
         public RatingMiddleware(RequestDelegate next)
         {
@@ -17,17 +19,20 @@ namespace MyFirstWebApiSite.MiddleWares
 
         public async Task Invoke(HttpContext httpContext, IRatingService ratingService)
         {
-
-            var host = httpContext.Request.Host;
-            var method = httpContext.Request.Method;
-            var path = httpContext.Request.Path;
-            var referer =httpContext.Request;
-            var userAgent = httpContext;
-            var recordDate = new DateTime();
-
-             await _next(httpContext);
+            Rating rating = new()
+            {
+                Host = httpContext.Request.Host.Value,
+                Method = httpContext.Request.Method,
+                Path = httpContext.Request.Path,
+                Referer = httpContext.Request.Headers.Referer,
+                UserAgent = httpContext.Request.Headers.UserAgent,
+                RecordDate = DateTime.Now
+            };
+            await ratingService.addRating(rating);
+            await _next(httpContext);
         }
     }
+    
 
     // Extension method used to add the middleware to the HTTP request pipeline.
     public static class RatingMiddlewareExtensions
