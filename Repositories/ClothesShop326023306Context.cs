@@ -31,7 +31,10 @@ public partial class ClothesShop326023306Context : DbContext
     public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer(_configuration.GetConnectionString("MyShop"));
+    {
+        optionsBuilder.UseSqlServer(_configuration.GetConnectionString("MyShop"));
+        
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
