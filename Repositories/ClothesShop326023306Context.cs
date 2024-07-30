@@ -32,8 +32,10 @@ public partial class ClothesShop326023306Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(_configuration.GetConnectionString("MyShop"));
-        
+        if(!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("MyShop"));
+        }
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
